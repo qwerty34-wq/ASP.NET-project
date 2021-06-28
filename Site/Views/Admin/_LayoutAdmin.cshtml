@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    
+    <title>@ViewData["Title"]</title>
+
+    @Html.Partial("~/Views/Shared/_links.cshtml")
+
+</head>
+<body>
+
+
+    @* Header *@
+    <nav class="navbar navbar-expand-lg navbar navbar-light" style="background-color: #e3f2fd;">
+        <div class="container-fluid" style="padding: 15px;">
+            <a class="navbar-brand" asp-controller="Admin" asp-action="Index">Admin</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item" style="margin: 5px;">
+                        <a class="btn btn-primary" aria-current="page" asp-controller="Home" asp-action="Index">Visit Site</a>
+                    </li>
+                    <li class="nav-item" style="margin: 5px;">
+                        <a class="btn btn-success" aria-current="CarControl" asp-controller="Admin" asp-action="CarIndex">Cars</a>
+                    </li>
+                    <li class="nav-item" style="margin: 5px;">
+                        <a class="btn btn-success" aria-current="CarControl" asp-controller="Admin" asp-action="ShowUsers">Users</a>
+                    </li>
+                </ul>
+                <form class="d-flex" asp-controller="Admin" asp-action="LogOut">
+                    @*<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">*@
+                    <button class="btn btn-outline-danger">Log out</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+
+    <div>
+        @RenderBody()
+    </div>
+
+  
+
+    @Html.Partial("~/Views/Shared/_scripts.cshtml")
+
+</body>
+</html>
+    
