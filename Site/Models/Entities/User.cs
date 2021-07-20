@@ -12,16 +12,28 @@ namespace Site.Models.Entities
     {
         [Key]
         public Guid Id { get; set; }
+        [Required]
+        [StringLength(50, MinimumLength = 2, ErrorMessage = "2 < Name < 50")]
         public string Name { get; set; }
+        [Required]
+        [StringLength(100, MinimumLength = 2, ErrorMessage = "2 < Surname < 50")]
         public string Surname { get; set; }
+        [Required]
+        [Range(1, 120, ErrorMessage = "1 < Age < 120")]
         public int Age { get; set; }
+        [Required]
+        [StringLength(100, MinimumLength = 2, ErrorMessage = "2 < Login < 100")]
         public string Login { get; set; }
         public string Hash { get; set; }
         public bool isAdmin { get; set; }
-        public string? Country { get; set; }
-        public string? City { get; set; }
-        public string? PhoneNumber { get; set; }
-        public string? Email { get; set; }
+        [StringLength(150, MinimumLength = 2, ErrorMessage = "2 < Country < 50")]
+        public string Country { get; set; }
+        [StringLength(150, MinimumLength = 2, ErrorMessage = "2 < City < 50")]
+        public string City { get; set; }
+        [Phone]
+        public string PhoneNumber { get; set; }
+        [EmailAddress]
+        public string Email { get; set; }
 
         private readonly IHashDataManager _hashDataManager = new HashDataManager();
 

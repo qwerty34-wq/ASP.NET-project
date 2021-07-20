@@ -92,17 +92,27 @@ namespace Site.Controllers
         [HttpPost]
         public IActionResult CreateUsers(User model)
         {
-            if (!ModelState.IsValid)
+
+            if (model.Hash == null)
             {
-                return Content("Error");
+                ModelState.AddModelError("hash", "Password is required");
+            }
+            else if (model.Hash.Length > 50 || model.Hash.Length < 2)
+            {
+                ModelState.AddModelError("hash", "2 < Password < 50");
             }
 
-            model.SetGuid();
-            model.SetHash();
 
-            _service.AddUser(model);
+            if (ModelState.IsValid)
+            {
+                model.SetGuid();
+                model.SetHash();
 
-            return RedirectToAction("ShowUsers");
+                _service.AddUser(model);
+                return RedirectToAction("ShowUsers");
+            }
+
+            return View(model);
         }
 
         [HttpGet]
@@ -121,13 +131,13 @@ namespace Site.Controllers
         [HttpPost]
         public IActionResult EditUsers(Guid Id, User model)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return Content("Error");
+                _service._UpdateUser(Id, model);
+                return RedirectToAction("ShowUsers");
             }
 
-            _service._UpdateUser(Id, model);
-            return RedirectToAction("ShowUsers");
+            return View(model);
         }
 
         [HttpGet]
@@ -189,17 +199,17 @@ namespace Site.Controllers
         [HttpPost]
         public IActionResult CreateVechicle(Vechicle vechicle)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return Content("Error");
+                vechicle.Id = Guid.NewGuid();
+                _service.AddVechicle(vechicle);
+                return RedirectToAction("CarIndex");
             }
 
-            vechicle.Id = Guid.NewGuid();
-            _service.AddVechicle(vechicle);
-
-            return RedirectToAction("CarIndex");
+            return View(vechicle);
         }
 
+        [HttpGet]
         public IActionResult DetailsVechicle(Guid Id)
         {
             var vechicle = _service.GetVechicleById(Id);
@@ -222,8 +232,14 @@ namespace Site.Controllers
         [HttpPost]
         public IActionResult EditVechicle(Guid Id, Vechicle vechicle)
         {
-            _service.UpdateVechicle(Id, vechicle);
-            return RedirectToAction("CarIndex");
+
+            if (ModelState.IsValid)
+            {
+                _service.UpdateVechicle(Id, vechicle);
+                return RedirectToAction("CarIndex");
+            }
+
+            return View(vechicle);
         }
 
         [HttpGet]
