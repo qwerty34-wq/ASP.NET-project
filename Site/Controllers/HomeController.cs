@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Site.Models;
+using Site.Models.Services;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,15 +13,24 @@ namespace Site.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private ICommonDataManager _service;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ICommonDataManager commonDataManager)
         {
             _logger = logger;
+            _service = commonDataManager;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            return View(_service.GetAllData());
+        }
+
+        [HttpGet]
+        public IActionResult ShowDetailsCar(Guid Id)
+        {
+            return View(_service.GetAllDataForVechicle(Id));
         }
 
         public IActionResult Privacy()

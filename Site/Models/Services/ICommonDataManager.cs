@@ -19,6 +19,7 @@ namespace Site.Models.Services
         User GetUserById(Guid Id);
         void DeleteUser(Guid Id);
         void _UpdateUser(Guid Id, User user);
+        IList<User> GetAdmins();
 
 
         // Vehicle work
@@ -27,5 +28,9 @@ namespace Site.Models.Services
         Vechicle GetVechicleById(Guid Id);
         void UpdateVechicle(Guid Id, Vechicle vechicle);
         void DeleteVechicle(Guid Id);
+
+        // All
+        IList<VechicleUser> GetAllData();
+        VechicleUser GetAllDataForVechicle(Guid Id);
     }
 }

@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Site.Models.Entities;
 using Site.Models.Services;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,8 +17,9 @@ namespace Site.Controllers
     public class AdminController : Controller
     {
         private readonly ICommonDataManager _service;
+        private IWebHostEnvironment _appEnvironment;
 
-        public AdminController(ICommonDataManager commonDataManager)
+        public AdminController(ICommonDataManager commonDataManager, IWebHostEnvironment appEnvironment)
         {
             _service = commonDataManager;
         }
@@ -68,7 +72,11 @@ namespace Site.Controllers
 
         public IActionResult AdminPanel(Guid id)
         {
-            return View();
+
+            ViewBag.usersCount = _service.GetUsers().Count();
+            ViewBag.carsCount = _service.GetVechicles().Count();
+
+            return View(_service.GetAdmins());
         }
 
         public IActionResult LogOut()
@@ -172,6 +180,20 @@ namespace Site.Controllers
         [HttpGet]
         public IActionResult CarIndex()
         {
+            var list = _service.GetUsers().Select(x => new { Id = x.Id, FullName = x.Name + " " + x.Surname }).ToList();
+
+            var dict = new Dictionary<Guid, string>();
+            dict.Add(default, "None");
+
+            foreach (var item in list)
+            {
+                if (!dict.ContainsKey(item.Id))
+                {
+                    dict.Add(item.Id, item.FullName);
+                }
+            }
+
+            ViewBag.data = dict;
             return View(_service.GetVechicles());
         }
 
@@ -193,15 +215,35 @@ namespace Site.Controllers
             //    ls.Add(i);
             //}
             //ViewData["Vechicles"] = ls;
+
+            var user = new User() { Id = default, Name = "None", Surname = String.Empty };
+            _service.GetUsers().Insert(0, user);
+            var items = _service.GetUsers().Select(x => new { x.Id, NameSurname = x.Name + " " + x.Surname });
+            ViewBag.users = new SelectList(items, "Id", "NameSurname");
+
             return View();
         }
 
         [HttpPost]
-        public IActionResult CreateVechicle(Vechicle vechicle)
+        public async Task<IActionResult> CreateVechicle(Vechicle vechicle, IFormFileCollection files)
         {
             if (ModelState.IsValid)
             {
                 vechicle.Id = Guid.NewGuid();
+                
+                foreach (var file in files)
+                {
+                    string path = $"/files/{file.FileName}";
+
+                    using (var fileStream = new FileStream("wwwroot" + path, FileMode.OpenOrCreate))
+                    {
+                        await file.CopyToAsync(fileStream);
+                    }
+
+                    FileModel f = new FileModel() { Name = file.FileName, Path = path };
+                    vechicle.Files.Add(f);
+                }
+
                 _service.AddVechicle(vechicle);
                 return RedirectToAction("CarIndex");
             }
@@ -226,15 +268,42 @@ namespace Site.Controllers
                 throw new Exception($"Vechicle id equals {Id} not found");
             }
 
+            var user = new User() { Id = default, Name = "None", Surname = String.Empty };
+            _service.GetUsers().Insert(0, user);
+            var items = _service.GetUsers().Select(x => new { x.Id, NameSurname = x.Name + " " + x.Surname });
+            ViewBag.users = new SelectList(items, "Id", "NameSurname");
+
             return View(v);
         }
 
+        // End Edit Pictures. End ClearFiles().
         [HttpPost]
-        public IActionResult EditVechicle(Guid Id, Vechicle vechicle)
+        public async Task<IActionResult> EditVechicle(Guid Id, Vechicle vechicle, IFormFileCollection files)
         {
 
             if (ModelState.IsValid)
             {
+                if (files.Count != 0)
+                {
+                    vechicle.Files.Clear();
+                
+                    foreach (var file in files)
+                    {
+                        string path = $"/files/{file.FileName}";
+
+                        using (var fileStream = new FileStream("wwwroot" + path, FileMode.OpenOrCreate))
+                        {
+                            await file.CopyToAsync(fileStream);
+                        }
+
+                        FileModel f = new FileModel() { Name = file.FileName, Path = path };
+
+                        //ClearFiles();
+
+                        vechicle.Files.Add(f);
+                    }
+                }
+
                 _service.UpdateVechicle(Id, vechicle);
                 return RedirectToAction("CarIndex");
             }

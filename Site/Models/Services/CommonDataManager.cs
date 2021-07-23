@@ -40,9 +40,9 @@ namespace Site.Models.Services
                 Name = "Bob",
                 Surname = "Smal",
                 Age = 12,
-                Login = "1",
-                Hash = GetHashByString("q"),
-                isAdmin = false,
+                Login = "2",
+                Hash = GetHashByString("2"),
+                isAdmin = true,
                 Country = "USA",
                 City = "NY",
                 PhoneNumber = "+123456789",
@@ -91,7 +91,7 @@ namespace Site.Models.Services
                 VechicleState = VechicleState.Good,
                 Mileage = 100000,
                 Price = 90000,
-                User = _users[0]
+                UserId = default
             });
 
             _vechicles.Add(new Vechicle()
@@ -105,7 +105,7 @@ namespace Site.Models.Services
                 VechicleState = VechicleState.Good,
                 Mileage = 100000,
                 Price = 50000,
-                User = _users[1]
+                UserId = default
             });
 
             _vechicles.Add(new Vechicle()
@@ -119,7 +119,91 @@ namespace Site.Models.Services
                 VechicleState = VechicleState.Good,
                 Mileage = 200000,
                 Price = 85000,
-                User = _users[2]
+                UserId = default
+            });
+
+            _vechicles.Add(new Vechicle()
+            {
+                Id = Guid.NewGuid(),
+                Name = "6Tesla",
+                Model = "Model X",
+                Country = "USA",
+                VechicleType = VechicleType.Car,
+                Manufactured = new DateTime(2010, 01, 01),
+                VechicleState = VechicleState.Good,
+                Mileage = 100000,
+                Price = 90000,
+                UserId = default
+            });
+
+            _vechicles.Add(new Vechicle()
+            {
+                Id = Guid.NewGuid(),
+                Name = "5Tesla",
+                Model = "Model Y",
+                Country = "USA",
+                VechicleType = VechicleType.Car,
+                Manufactured = new DateTime(2018, 01, 01),
+                VechicleState = VechicleState.Good,
+                Mileage = 100000,
+                Price = 50000,
+                UserId = default
+            });
+
+            _vechicles.Add(new Vechicle()
+            {
+                Id = Guid.NewGuid(),
+                Name = "4Tesla",
+                Model = "Model S",
+                Country = "USA",
+                VechicleType = VechicleType.Car,
+                Manufactured = new DateTime(2009, 01, 01),
+                VechicleState = VechicleState.Good,
+                Mileage = 200000,
+                Price = 85000,
+                UserId = default
+            });
+
+            _vechicles.Add(new Vechicle()
+            {
+                Id = Guid.NewGuid(),
+                Name = "3Tesla",
+                Model = "Model X",
+                Country = "USA",
+                VechicleType = VechicleType.Car,
+                Manufactured = new DateTime(2010, 01, 01),
+                VechicleState = VechicleState.Good,
+                Mileage = 100000,
+                Price = 90000,
+                UserId = default
+            });
+
+            _vechicles.Add(new Vechicle()
+            {
+                Id = Guid.NewGuid(),
+                Name = "2Tesla",
+                Model = "Model Y",
+                Country = "USA",
+                VechicleType = VechicleType.Car,
+                Manufactured = new DateTime(2018, 01, 01),
+                VechicleState = VechicleState.Good,
+                Mileage = 100000,
+                Price = 50000,
+                UserId = default
+            });
+
+            _vechicles.Add(new Vechicle()
+            {
+                Id = Guid.NewGuid(),
+                Name = "1Tesla",
+                Model = "Model S",
+                Country = "USA",
+                VechicleType = VechicleType.Car,
+                Manufactured = new DateTime(2009, 01, 01),
+                VechicleState = VechicleState.Good,
+                Mileage = 200000,
+                Price = 85000,
+                UserId = default
             });
 
         }
@@ -217,13 +301,59 @@ namespace Site.Models.Services
             v.Manufactured = vechicle.Manufactured; 
             v.VechicleState = vechicle.VechicleState; 
             v.Mileage = vechicle.Mileage; 
-            v.Price = vechicle.Price; 
+            v.Price = vechicle.Price;
+            v.UserId = vechicle.UserId;
         }
 
         public void DeleteVechicle(Guid Id)
         {
             var vechicle = GetVechicleById(Id);
             _vechicles.Remove(vechicle);
+        }
+
+        public IList<User> GetAdmins()
+        {
+            return _users.Where(u => u.isAdmin == true).ToList();
+        }
+
+        public IList<FileModel> GetVechicleFiles(Guid VechicleId)
+        {
+            return GetVechicleById(VechicleId).Files;
+        }
+
+        public IList<VechicleUser> GetAllData()
+        {
+            IList<VechicleUser> data = new List<VechicleUser>();
+            foreach (var vechicle in _vechicles)
+            {
+                if (vechicle.UserId == default) 
+                {
+                    data.Add(new VechicleUser() { Vechicle = vechicle, User = new User() { Name="No User", Surname="" } });
+                    continue;
+                }
+
+                var user = GetUserById(vechicle.UserId);
+                data.Add(new VechicleUser() { Vechicle = vechicle, User = user });
+            }
+            return data;
+        }
+
+        public VechicleUser GetAllDataForVechicle(Guid Id)
+        {
+            var vechicle = GetVechicleById(Id);
+
+            User user;
+            
+            if (vechicle.UserId != default)
+            {
+                user = GetUserById(vechicle.UserId);
+            }
+            else
+            {
+                user = new User() { Name = "No User", Surname = "" };
+            }
+
+            return new VechicleUser() { Vechicle = vechicle, User = user };
         }
     }
 }

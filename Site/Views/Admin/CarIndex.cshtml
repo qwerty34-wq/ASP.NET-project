@@ -1,8 +1,11 @@
 ﻿@model IEnumerable<Site.Models.Entities.Vechicle>
+@inject Site.Models.Services.ICommonDataManager _service
 
 @{
     ViewData["Title"] = "CarIndex";
     Layout = "_LayoutAdmin";
+
+    int n = 3;
 }
 
 <h1>CarIndex</h1>
@@ -40,6 +43,15 @@
             <th>
                 @Html.DisplayNameFor(model => model.Price)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserId)
+            </th>
+            <th>
+                User FullName
+            </th>
+            <th>
+                Photos
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -74,7 +86,19 @@
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
-                @Html.ActionLink("Edit", "EditVechicle", new {  id = item.Id  }, new { @class = "btn btn-success" }) |
+                @Html.DisplayFor(modelItem => item.UserId)
+            </td>
+            <td>
+                @ViewBag.data[item.UserId]
+            </td>
+            <td>
+                @foreach (var _f in item.Files)
+                {
+                    <p><img src="@Url.Content(_f.Path)" width="150" height="100"></p>
+                }
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditVechicle", new { id = item.Id }, new { @class = "btn btn-success" }) |
                 @Html.ActionLink("Details", "DetailsVechicle", new { id = item.Id }, new { @class = "btn btn-primary" }) |
                 @Html.ActionLink("Delete", "DeleteVechicle", new { id = item.Id }, new { @class = "btn btn-danger" })
             </td>

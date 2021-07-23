@@ -25,10 +25,16 @@ namespace Site.Models.Entities
         public DateTime Manufactured { get; set; }
         [Required]
         public VechicleState VechicleState { get; set; }
-        [Required]
+        [Required]  
         public long Mileage { get; set; }
         [Required]
         public float Price { get; set; }
-        public User User { get; set; }
+        public Guid UserId { get; set; }
+        public IList<FileModel> Files { get; set; }
+
+        public Vechicle()
+        {
+            Files = new List<FileModel>();
+        }
     }
 }

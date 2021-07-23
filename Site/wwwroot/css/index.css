@@ -1,0 +1,19 @@
+﻿.UpBlock {
+    height: 100px;
+    width: 100%;
+}
+
+.card {
+    cursor: pointer;
+    border: 1px solid orange;
+    margin: 25px !important;
+    transition-property: background-color, color, transform, border;
+    transition-duration: 1s;
+}
+
+.card:hover{
+    border: 2px solid orange;
+    background-color: orange;
+    color: white;
+    transform: scale(1.05);
+}

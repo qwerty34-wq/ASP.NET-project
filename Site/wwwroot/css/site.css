@@ -10,6 +10,11 @@
  * Copyright 2011-2021 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+
+/*body{
+    background-color: skyblue !important;
+}*/
+
 :root {
     --bs-blue: #0d6efd;
     --bs-indigo: #6610f2;
@@ -11483,14 +11488,14 @@ hr.divider-light {
     }
 
         #mainNav .navbar-nav .nav-item .nav-link:hover, #mainNav .navbar-nav .nav-item .nav-link:active {
-            color: #f4623a;
+            color: #df0606;
         }
 
         #mainNav .navbar-nav .nav-item .nav-link.active {
             color: #f4623a !important;
         }
 
-@media (min-width: 992px) {
+/*@media (min-width: 992px) {*/
     #mainNav {
         box-shadow: none;
         background-color: transparent;
@@ -11505,7 +11510,7 @@ hr.divider-light {
             }
 
         #mainNav .navbar-nav .nav-item .nav-link {
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255, 255, 255, 0.7) !important;
             padding: 0 1rem;
         }
 
@@ -11537,12 +11542,12 @@ hr.divider-light {
                 #mainNav.navbar-shrink .navbar-nav .nav-item .nav-link:hover {
                     color: #f4623a;
                 }
-}
+/*}*/
 
 header.masthead {
     padding-top: 10rem;
     padding-bottom: calc(10rem - 4.5rem);
-    background: linear-gradient(to bottom, rgba(92, 77, 66, 0.8) 0%, rgba(92, 77, 66, 0.8) 100%), url("../img/bg-masthead.jpg");
+    /*background: linear-gradient(to bottom, rgba(92, 77, 66, 0.8) 0%, rgba(92, 77, 66, 0.8) 100%), url("../img/bg-masthead.jpg");*/
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: scroll;
