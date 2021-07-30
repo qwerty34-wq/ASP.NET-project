@@ -21,7 +21,6 @@ namespace Site.Models.Services
 
             _hashDataManager = hashDataManager;
 
-
             _users.Add(new User()
             {
                 Id = Guid.NewGuid(),
@@ -32,7 +31,6 @@ namespace Site.Models.Services
                 Hash = GetHashByString("1"),
                 isAdmin = true,
             });
-
 
             _users.Add(new User()
             {
@@ -48,7 +46,6 @@ namespace Site.Models.Services
                 PhoneNumber = "+123456789",
                 Email = "bob@gmail.com"
             });
-
 
             _users.Add(new User()
             {
@@ -99,10 +96,10 @@ namespace Site.Models.Services
                 Id = Guid.NewGuid(),
                 Name = "Tesla",
                 Model = "Model Y",
-                Country = "USA",
-                VechicleType = VechicleType.Car,
+                Country = "Ukraine",
+                VechicleType = VechicleType.Motorcycle,
                 Manufactured = new DateTime(2018, 01, 01),
-                VechicleState = VechicleState.Good,
+                VechicleState = VechicleState.Middle,
                 Mileage = 100000,
                 Price = 50000,
                 UserId = default
@@ -113,10 +110,10 @@ namespace Site.Models.Services
                 Id = Guid.NewGuid(),
                 Name = "Tesla",
                 Model = "Model S",
-                Country = "USA",
-                VechicleType = VechicleType.Car,
+                Country = "Ukraine",
+                VechicleType = VechicleType.Helicopter,
                 Manufactured = new DateTime(2009, 01, 01),
-                VechicleState = VechicleState.Good,
+                VechicleState = VechicleState.Bad,
                 Mileage = 200000,
                 Price = 85000,
                 UserId = default
@@ -127,7 +124,7 @@ namespace Site.Models.Services
                 Id = Guid.NewGuid(),
                 Name = "6Tesla",
                 Model = "Model X",
-                Country = "USA",
+                Country = "China",
                 VechicleType = VechicleType.Car,
                 Manufactured = new DateTime(2010, 01, 01),
                 VechicleState = VechicleState.Good,
@@ -141,7 +138,7 @@ namespace Site.Models.Services
                 Id = Guid.NewGuid(),
                 Name = "5Tesla",
                 Model = "Model Y",
-                Country = "USA",
+                Country = "England",
                 VechicleType = VechicleType.Car,
                 Manufactured = new DateTime(2018, 01, 01),
                 VechicleState = VechicleState.Good,
@@ -155,10 +152,10 @@ namespace Site.Models.Services
                 Id = Guid.NewGuid(),
                 Name = "4Tesla",
                 Model = "Model S",
-                Country = "USA",
-                VechicleType = VechicleType.Car,
+                Country = "France",
+                VechicleType = VechicleType.Helicopter,
                 Manufactured = new DateTime(2009, 01, 01),
-                VechicleState = VechicleState.Good,
+                VechicleState = VechicleState.Middle,
                 Mileage = 200000,
                 Price = 85000,
                 UserId = default
@@ -169,7 +166,7 @@ namespace Site.Models.Services
                 Id = Guid.NewGuid(),
                 Name = "3Tesla",
                 Model = "Model X",
-                Country = "USA",
+                Country = "France",
                 VechicleType = VechicleType.Car,
                 Manufactured = new DateTime(2010, 01, 01),
                 VechicleState = VechicleState.Good,
@@ -184,9 +181,9 @@ namespace Site.Models.Services
                 Name = "2Tesla",
                 Model = "Model Y",
                 Country = "USA",
-                VechicleType = VechicleType.Car,
+                VechicleType = VechicleType.Bus,
                 Manufactured = new DateTime(2018, 01, 01),
-                VechicleState = VechicleState.Good,
+                VechicleState = VechicleState.Bad,
                 Mileage = 100000,
                 Price = 50000,
                 UserId = default

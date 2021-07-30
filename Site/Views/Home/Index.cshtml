@@ -1,7 +1,11 @@
-﻿@model IEnumerable<Site.Models.Entities.VechicleUser>
+﻿@*@model IEnumerable<Site.Models.Entities.VechicleUser>*@
+@model Site.Models.Entities.MainViewModel
 
 @{
     ViewData["Title"] = "Home Page";
+
+    var filter = Model.Filter;
+    var vechicles = Model.Vechicles;
 }
 
 @section StyleDependencies{
@@ -16,34 +20,66 @@
         @*<h2>All Cars</h2>*@
     </div>
 
-        <div class="container-fluid">
-            <div class="row">
 
-                @foreach (var item in Model)
-                {
+    <div class="container-fluid">
+        <div class="row filterForm">
+            <form asp-controller="Home" asp-action="Index" method="GET">
+                <div class="row">
+                    <div class="col-2">
 
-                    <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
-                        <div class="card" style="width: 18rem;">
-                            @if (item.Vechicle.Files.Count != 0)
-                            {
-                                <img src="@Url.Content(item.Vechicle.Files[0].Path)" class="card-img-top" alt="...">
-                            }
-                            else
-                            {
-                                <img src="~/files/model_y.jpg" class="card-img-top" alt="...">
-                            }
-                            <div class="card-body">
-                                <h5 class="card-title">@item.Vechicle.Name</h5>
-                                <h4>@item.Vechicle.Model</h4>
-                                <p class="card-text">Price: @item.Vechicle.Price $</p>
-                                <a asp-controller="Home" asp-action="ShowDetailsCar" asp-route-id="@item.Vechicle.Id" class="btn btn-primary">Learn more</a>
-                            </div>
+                    </div>
+                    <div class="col-2">
+                        <input type="text" name="Search" value="@filter.Search" class="form-control filterElem" placeholder="Tesla Model X USA"/>
+                    </div>
+                    <div class="col-2">
+                        <select asp-items="@Html.GetEnumSelectList<VechicleState>()" name="VechicleState" class="form-select filterElem">
+                            <option value="">All</option>
+                        </select>
+                    </div>
+                    <div class="col-2">
+                        <select asp-items="@Html.GetEnumSelectList<VechicleType>()" name="VechicleType" class="form-select filterElem">
+                            <option value="">All</option>
+                        </select>
+                    </div>
+                    <div class="col-2">
+
+                    </div>
+                    <div class="col-2">
+                        <input class="btn btn-primary" type="submit" value="Search" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+
+            @foreach (var item in vechicles)
+            {
+
+                <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <div class="card" style="width: 18rem;">
+                        @if (item.Files.Count != 0)
+                        {
+                            <img src="@Url.Content(item.Files[0].Path)" class="card-img-top" alt="...">
+                        }
+                        else
+                        {
+                            <img src="~/files/model_y.jpg" class="card-img-top" alt="...">
+                        }
+                        <div class="card-body">
+                            <h5 class="card-title">@item.Name</h5>
+                            <h4>@item.Model</h4>
+                            <p class="card-text">Price: @item.Price $</p>
+                            <a asp-controller="Home" asp-action="ShowDetailsCar" asp-route-id="@item.Id" class="btn btn-primary">Learn more</a>
                         </div>
                     </div>
-                }
-            </div>
+                </div>
+            }
         </div>
-    
+    </div>
+
 
 
     <!-- Services-->
@@ -84,3 +120,12 @@
         </div>
     </section>
 }
+
+
+
+@section ScriptsDependencies{
+
+    @*<script src="~/js/index.js"></script>*@
+
+}
+
