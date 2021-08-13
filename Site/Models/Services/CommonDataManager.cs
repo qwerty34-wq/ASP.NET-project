@@ -25,7 +25,7 @@ namespace Site.Models.Services
             {
                 Id = Guid.NewGuid(),
                 Name = "John",
-                Surname = "Doe",
+                Surname = "Doe",    
                 Age = 20,
                 Login = "1",
                 Hash = GetHashByString("1"),

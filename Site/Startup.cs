@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Site.DAL;
 using Site.Models.Services;
 using System;
 using System.Collections.Generic;
@@ -13,18 +15,30 @@ namespace Site
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public IConfiguration Configuration { get; }
+        private IWebHostEnvironment webHostEnvironment { get; set; }
+
+
+        public Startup(IConfiguration configuration, IWebHostEnvironment hostEnvironment)
         {
             Configuration = configuration;
+            webHostEnvironment = hostEnvironment;
         }
 
-        public IConfiguration Configuration { get; }
-
+        
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<ICommonDataManager, CommonDataManager>();
-            services.AddTransient<IHashDataManager, HashDataManager>();
+            var conn = webHostEnvironment.IsDevelopment() ? "DefaultConnection" : "MyOwnConnectionString";
+
+            services.AddDbContext<ApplicationDBContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString(conn)));
+
+            services.AddScoped<ICommonDataManager, CommonDBContextDataManagement>();
+            services.AddScoped<IHashDataManager, HashDataManager>();
+
+            //services.AddSingleton<ICommonDataManager, CommonDataManager>();
+            //services.AddTransient<IHashDataManager, HashDataManager>();
 
             services.AddControllersWithViews();
             services.AddDistributedMemoryCache();
