@@ -352,5 +352,44 @@ namespace Site.Models.Services
 
             return new VechicleUser() { Vechicle = vechicle, User = user };
         }
+
+        public bool UpdateVechicleType(Guid id, VechicleType type)
+        {
+            var vechicle = _vechicles.FirstOrDefault(x => x.Id == id);
+
+            if (vechicle is null)
+            {
+                return false;
+            }
+
+            vechicle.VechicleType = type;
+            return true;
+        }
+
+        public bool UpdateVechicleState(Guid id, VechicleState state)
+        {
+            var vechicle = _vechicles.FirstOrDefault(x => x.Id == id);
+
+            if (vechicle is null)
+            {
+                return false;
+            }
+
+            vechicle.VechicleState = state;
+            return true;
+        }
+
+        public bool UpdateIsAdmin(Guid id, bool isAdmin)
+        {
+            var user = _users.FirstOrDefault(x => x.Id == id);
+
+            if (user is null)
+            {
+                return false;
+            }
+
+            user.isAdmin = !user.isAdmin;
+            return true;
+        }
     }
 }

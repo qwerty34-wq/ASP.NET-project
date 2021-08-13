@@ -28,9 +28,14 @@ namespace Site.Models.Services
         Vechicle GetVechicleById(Guid Id);
         void UpdateVechicle(Guid Id, Vechicle vechicle);
         void DeleteVechicle(Guid Id);
+        bool UpdateVechicleType(Guid id, VechicleType type);
+        bool UpdateVechicleState(Guid id, VechicleState state);
 
         // All
         IList<VechicleUser> GetAllData();
         VechicleUser GetAllDataForVechicle(Guid Id);
+
+
+        bool UpdateIsAdmin(Guid id, bool isAdmin);
     }
 }

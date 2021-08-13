@@ -43,9 +43,14 @@
         @RenderBody()
     </div>
 
-  
+
 
     @Html.Partial("~/Views/Shared/_scripts.cshtml")
+
+
+    @RenderSection("Scripts", false);
+
+
 
 </body>
 </html>

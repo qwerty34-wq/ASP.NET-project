@@ -50,47 +50,56 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Surname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Age)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Login)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Hash)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.isAdmin)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Country)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.City)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "EditUsers", new { id = item.Id }, new { @class = "btn btn-success" }) |
-                @Html.ActionLink("Details", "DetailsUsers", new { id = item.Id }, new { @class = "btn btn-primary" }) |
-                @Html.ActionLink("Delete", "DeleteUsers", new { id = item.Id }, new { @class = "btn btn-danger"})
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Surname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Age)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Login)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Hash)
+                </td>
+                <td>
+                    @*@Html.DisplayFor(modelItem => item.isAdmin)*@
+                    <input type="checkbox" asp-for="@item.isAdmin" onclick="changeIsAdmin('@item.Id', this)" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Country)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.City)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "EditUsers", new { id = item.Id }, new { @class = "btn btn-success" }) |
+                    @Html.ActionLink("Details", "DetailsUsers", new { id = item.Id }, new { @class = "btn btn-primary" }) |
+                    @Html.ActionLink("Delete", "DeleteUsers", new { id = item.Id }, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+
+@section Scripts{
+
+    <script src="~/js/changeIsAdmin.js"></script>
+
+}

@@ -71,13 +71,15 @@
                 @Html.DisplayFor(modelItem => item.Country)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.VechicleType)
+                <select asp-items="@Html.GetEnumSelectList<VechicleType>()" asp-for="@item.VechicleType" class="form-select" onchange="updateVechicleType('@item.Id', this)"></select>
+                @*@Html.DisplayFor(modelItem => item.VechicleType)*@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Manufactured.Date)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.VechicleState)
+                <select asp-items="@Html.GetEnumSelectList<VechicleState>()" asp-for="@item.VechicleState" class="form-select" onchange="updateVechicleState('@item.Id', this)"></select>
+                @*@Html.DisplayFor(modelItem => item.VechicleState)*@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Mileage)
@@ -106,3 +108,50 @@
 }
     </tbody>
 </table>
+
+
+
+@section Scripts{
+
+    <script>
+
+        function updateVechicleType(id, obj) {
+
+            var type = $(obj).val();
+
+            $.ajax({
+                type: 'POST',
+                url: "/Admin/ChangeVechicleType/" + id,
+                data: JSON.stringify({
+                    Type: type
+                }),
+                contentType: "application/json"
+            }).done(function (response) {
+                console.log(response);
+            });
+
+        }
+
+
+        function updateVechicleState(id, obj) {
+
+            var state = $(obj).val();
+
+            $.ajax({
+                type: 'POST',
+                url: "/Admin/ChangeVechicleState/" + id,
+                data: JSON.stringify({
+                    State: state
+                }),
+                contentType: "application/json"
+            }).done(function (response) {
+                console.log(response);
+            });
+
+        }
+
+
+    </script>
+
+
+} 

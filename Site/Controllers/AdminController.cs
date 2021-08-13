@@ -330,5 +330,58 @@ namespace Site.Controllers
             _service.DeleteVechicle(id);
             return RedirectToAction("CarIndex");
         }
+    
+
+        [HttpPost]
+        public IActionResult ChangeVechicleType(Guid id, [FromBody] UpdateVechicleType model)
+        {
+            if (!Enum.TryParse<VechicleType>(model.Type, out var type))
+            {
+                return BadRequest();
+            }
+
+            if (_service.UpdateVechicleType(id, type))
+            {
+                return Ok(new { success = true });
+            }
+
+            return BadRequest();
+        }
+
+
+        [HttpPost]
+        public IActionResult ChangeVechicleState(Guid id, [FromBody] UpdateVechicleState model)
+        {
+            if (!Enum.TryParse<VechicleState>(model.State, out var state))
+            {
+                return BadRequest();
+            }
+
+            if (_service.UpdateVechicleState(id, state))
+            {
+                return Ok(new { success = true });
+            }
+
+            return BadRequest();
+        }
+
+
+        [HttpPost]
+        public IActionResult ChangeIsAdmin(Guid id, [FromBody] UpdateIsAdmin model)
+        {
+            if (!bool.TryParse(model.IsAdmin, out bool isAdmin))
+            {
+                return BadRequest();
+            }
+
+            if (_service.UpdateIsAdmin(id, isAdmin))
+            {
+                return Ok(new { success = true });
+            }
+
+            return BadRequest();
+        }
+
+
     }
 }

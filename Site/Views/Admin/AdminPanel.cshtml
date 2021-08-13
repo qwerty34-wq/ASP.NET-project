@@ -79,7 +79,8 @@
                                 @Html.DisplayFor(modelItem => item.Hash)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.isAdmin)
+                                @*@Html.DisplayFor(modelItem => item.isAdmin)*@
+                                <input type="checkbox" asp-for="@item.isAdmin" onclick="changeIsAdmin('@item.Id', this)"/>
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Country)
@@ -104,3 +105,8 @@
 </div>
 
 
+@section Scripts{ 
+
+    <script src="~/js/changeIsAdmin.js"></script>
+
+}
